@@ -10,34 +10,34 @@ import {Router} from "@angular/router";
 })
 export class PedidosComponent implements OnInit {
 
-dtOptions: DataTables.Settings = {};
 
 pedidos: any;
+datos: any;
+
 
 
 constructor(public userService:UsersService, public router:Router) {
+this.pedidos=[]
 
-this.userService.getinfo_pedidos().subscribe( data => {
-      this.pedidos = data.datos;
+this.getpedidos()
+}
+
+  ngOnInit(): void {
+
+  }
+
+  getpedidos(){
+    this.userService.getinfo_pedidos().subscribe( data => {
+      this.datos = data.datos;
+          this.pedidos = this.datos;
+      console.table(this.pedidos);
     },
     error => {
       console.log(error);
     });
 
    }
-  //constructor(private usersService: UsersService) { 
-  //this.pedidos = [
-  //{id:99, prioridad:1, cliente:"NOMBRE Cliente 1", Fecha_envio:"2022-03-28"},
-  //{id:95, prioridad:2, cliente:"NOMBRE Cliente 2", Fecha_envio:"2022-03-28"},
-  //];
-  //}
 
-  ngOnInit(): void {
-     
-     this.dtOptions = {
-      pagingType: 'full_numbers'
-    };
-  }
 
 }
  

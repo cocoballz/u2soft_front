@@ -2,15 +2,44 @@
 <div class="container overflow-hidden my-5">
   <div class="row gy-5">
     <div class="bd-callout bd-callout-warning">
-      <h5 id="date--color-input-support">Listado de Productos...</h5>
-
-      <p>
-         </p>
-
     </div>
 
-    <div >
-<table datatable [dtOptions]="dtOptions" class="dataTable table row-border hover">
+<div *ngIf= "proveedor_productos != ''" class="row justify-content-md-center">
+<div  class=" col-md-6  alert alert-warning" role="alert" >
+  <h3> provedores para {{proveedor_productos[0].producto.p_nombre}}</h3>
+  <hr>
+  <small>
+  <table class="table table-hover text-center">
+    <thead>
+    <tr>
+      <th scope="col">Proveedor</th>
+      <th scope="col">contacto</th>
+      <th scope="col">Cantidad Actual</th>
+      <th scope="col">solicitar mas</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider" >
+    <tr  *ngFor="let p_p of proveedor_productos; index as i">
+      <td><span >{{p_p.proveedor.pv_nombre}}</span> </td>
+      <td><span >{{p_p.proveedor.pv_mail}}</span> </td>
+      <td><span class="badge rounded-pill text-bg-info">{{p_p.producto.p_cantidad}}</span> </td>
+      <td>
+          <input type="number" min="0" max="100" class="md-select"  placeholder="1"><button class="btn btn-light">solicitar</button>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</small>
+
+</div>
+</div>
+
+
+
+<div >
+  <h3> Stock de Productos</h3>
+  <hr>
+<table class="table row-border table-striped  text-center">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -21,7 +50,7 @@
       <th scope="col">Opciones</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="table-group-divider">
     <tr  *ngFor="let dat of productos; index as i">
       <th scope="row">{{i+1}}</th>
       <td><span class="badge rounded-pill text-bg-dark">PROD.{{dat.id}}</span> </td>
@@ -30,9 +59,8 @@
       <td>{{dat.p_estado == 1 ? 'Activo':'Inactivo'}}</td>
       <td>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary">Left</button>
-          <button type="button" class="btn btn-primary">Middle</button>
-          <button type="button" class="btn btn-primary">Right</button>
+          <input type="hidden" name="id" value="{{dat.id}}" #idInput>
+          <button type="button" class="btn btn-primary" (click)="getprovedoresproducto(idInput.value)">Provedores</button>
         </div>
       </td>
     </tr>
@@ -41,11 +69,5 @@
     </div>
   </div>
 </div>
-<script>
-	$(document).on( function () {
-    
-    console.log('ejecutado data table')
-} );
-</script>
 <app-footer></app-footer>
 

@@ -41,6 +41,15 @@ export class UsersService {
     return this.http.post(url,'');
   }
 
+  getinfo_proveedor_producto(datos: any): Observable<any>{
+    const url = this.urlbase+"/list_proveedores_producto";
+    const headers = { 'Accept': 'application/json' };
+    //const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' };
+    //const url = "https://reqres.in/api/login";
+    return this.http.post(url, datos, {headers});
+  }
+
+
 
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from  '../../services/users.service';
 import {Router} from "@angular/router";
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -9,24 +10,57 @@ import {Router} from "@angular/router";
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
-productos: any;
- dtOptions: DataTables.Settings = {};
+  productos: any;
+  proveedor_productos: any;
 
-  constructor(public userService:UsersService, public router:Router) { }
+
+
+  constructor(public userService:UsersService, public router:Router) {
+    this.productos = []
+    this.proveedor_productos = []
+    this.getproductos();
+  }
 
   ngOnInit(): void {
-    this.userService.getinfo_productos().subscribe( data => {
-      console.log('creado');
-      console.log(data);
+  }
+
+  getproductos(){
+      this.userService.getinfo_productos().subscribe( data => {
       this.productos = data.datos;
-      console.table(this.productos);
     },
     error => {
       console.log(error); 
     });
-    this.dtOptions = {
-      pagingType: 'full_numbers'
-    };
+  }
+
+  getprovedoresproducto(id_producto: string){
+  console.log('llamando producto ['+ id_producto +']');
+
+    const datos = {producto: id_producto};
+    this.userService.getinfo_proveedor_producto(datos).subscribe(data => {
+        console.log(data);
+        Swal.fire({
+          icon: 'info',
+          toast: true, 
+          title: 'Consulta',
+          html:  'Proveedores encotrados: '+ data.datos.length,
+        })
+      this.proveedor_productos=data.datos;
+
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Proveedor no encontrado para este producto.'
+        })
+      }
+    );
+
+
+
+
+
   }
 
 }

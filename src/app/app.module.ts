@@ -15,7 +15,6 @@ import { DashboardComponent } from './componentes/partials/dashboard/dashboard.c
 import { FooterComponent } from './componentes/partials/footer/footer.component';
 import { PedidosComponent } from './componentes/pedidos/pedidos.component';
 import { ProductosComponent } from './componentes/productos/productos.component';
-import { TrTableComponent } from './componentes/partials/tr-table/tr-table.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { TrTableComponent } from './componentes/partials/tr-table/tr-table.compo
     FooterComponent,
     PedidosComponent,
     ProductosComponent,
-    TrTableComponent,
   ],
   imports: [
     BrowserModule,
