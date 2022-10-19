@@ -3,71 +3,71 @@
   <div class="row gy-5">
     <div class="bd-callout bd-callout-warning">
     </div>
+    <div *ngIf= "proveedor_productos != ''" class="row justify-content-md-center">
+      <div  class=" col-md-6  alert alert-warning" role="alert" >
+        <h3> provedores para {{proveedor_productos[0].producto.p_nombre}}</h3>
+        <hr>
+        <small>
+          <table class="table table-hover text-center">
+            <thead>
+              <tr>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Email</th>
+                <th scope="col"># Contacto</th>
+                <th scope="col">solicitar mas</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" >
+              <tr  *ngFor="let p_p of proveedor_productos; index as i">
+                <td><span >{{p_p.proveedor.pv_nombre}}</span> </td>
+                <td><span >{{p_p.proveedor.pv_mail}}</span> </td>
+                <td>{{p_p.proveedor.pv_contacto}}</td>
+                <td>
+                  <input type="hidden" name="xx" #idInput value="{{p_p.id}}">
+                  <input type="number" min="0" max="100" class="md-select"  placeholder="1" #idInput2><button (click)="add_producto(idInput.value,idInput2.value)" class="btn btn-light">solicitar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </small>
+      </div>
+    </div>
 
-<div *ngIf= "proveedor_productos != ''" class="row justify-content-md-center">
-<div  class=" col-md-6  alert alert-warning" role="alert" >
-  <h3> provedores para {{proveedor_productos[0].producto.p_nombre}}</h3>
-  <hr>
-  <small>
-  <table class="table table-hover text-center">
-    <thead>
-    <tr>
-      <th scope="col">Proveedor</th>
-      <th scope="col">contacto</th>
-      <th scope="col">Cantidad Actual</th>
-      <th scope="col">solicitar mas</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider" >
-    <tr  *ngFor="let p_p of proveedor_productos; index as i">
-      <td><span >{{p_p.proveedor.pv_nombre}}</span> </td>
-      <td><span >{{p_p.proveedor.pv_mail}}</span> </td>
-      <td><span class="badge rounded-pill text-bg-info">{{p_p.producto.p_cantidad}}</span> </td>
-      <td>
-          <input type="number" min="0" max="100" class="md-select"  placeholder="1"><button class="btn btn-light">solicitar</button>
-      </td>
-    </tr>
-  </tbody>
-  </table>
-</small>
-
-</div>
-</div>
-
-
-
-<div >
-  <h3> Stock de Productos</h3>
-  <hr>
-<table class="table row-border table-striped  text-center">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Codigo producto</th>
-      <th scope="col">nombre</th>
-      <th scope="col">Cantidad</th>
-      <th scope="col">estado</th>
-      <th scope="col">Opciones</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <tr  *ngFor="let dat of productos; index as i">
-      <th scope="row">{{i+1}}</th>
-      <td><span class="badge rounded-pill text-bg-dark">PROD.{{dat.id}}</span> </td>
-      <td>{{dat.p_nombre}}</td>
-      <td ><span class="badge rounded-pill text-bg-primary">{{dat.p_cantidad}}</span></td>
-      <td>{{dat.p_estado == 1 ? 'Activo':'Inactivo'}}</td>
-      <td>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <input type="hidden" name="id" value="{{dat.id}}" #idInput>
-          <button type="button" class="btn btn-primary" (click)="getprovedoresproducto(idInput.value)">Provedores</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <div>
+      <h3> Stock de Productos</h3>
+      <hr>
+      <table class="table row-border table-striped  text-center">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Codigo producto</th>
+            <th scope="col">nombre</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">estado</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr  *ngFor="let dat of productos; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td><span class="badge rounded-pill text-bg-dark">PROD.{{dat.id}}</span> </td>
+            <td>{{dat.p_nombre}}</td>
+            <td ><span class="badge rounded-pill text-bg-primary">{{dat.p_cantidad}}</span></td>
+            <td>{{dat.p_estado == 1 ? 'Activo':'Inactivo'}}</td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <input type="hidden" name="id" value="{{dat.id}}" #idInput>
+                <button type="button" class="btn btn-primary" (click)="getprovedoresproducto(idInput.value)">Provedores</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+  <div class="row row-cols-auto">
+   <div class="col"><a href="/inicio" class="btn btn-primary">Inicio</a></div>
+ </div>
 </div>
 <app-footer></app-footer>
 

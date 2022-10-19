@@ -4,6 +4,7 @@ import { LoginComponent } from "./componentes/login/login.component";
 import { PedidosComponent } from "./componentes/pedidos/pedidos.component";
 import { ProductosComponent } from "./componentes/productos/productos.component";
 import { DashboardComponent } from "./componentes/partials/dashboard/dashboard.component";
+import { ProveedoresComponent } from './componentes/proveedores/proveedores.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -11,7 +12,8 @@ const routes: Routes = [
   {path: 'inicio', component: DashboardComponent},
   {path: 'pedidos', component: PedidosComponent},
   {path: 'productos', component: ProductosComponent},
-  ];
+  {path: 'proveedores', component: ProveedoresComponent},
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
           text: 'Datos de ingreso Incorrectos.'
         })
       }
-    );
+      );
   }
 
 

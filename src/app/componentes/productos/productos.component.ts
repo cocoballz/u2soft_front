@@ -13,8 +13,6 @@ export class ProductosComponent implements OnInit {
   productos: any;
   proveedor_productos: any;
 
-
-
   constructor(public userService:UsersService, public router:Router) {
     this.productos = []
     this.proveedor_productos = []
@@ -25,7 +23,7 @@ export class ProductosComponent implements OnInit {
   }
 
   getproductos(){
-      this.userService.getinfo_productos().subscribe( data => {
+    this.userService.getinfo_productos().subscribe( data => {
       this.productos = data.datos;
     },
     error => {
@@ -34,33 +32,56 @@ export class ProductosComponent implements OnInit {
   }
 
   getprovedoresproducto(id_producto: string){
-  console.log('llamando producto ['+ id_producto +']');
-
     const datos = {producto: id_producto};
     this.userService.getinfo_proveedor_producto(datos).subscribe(data => {
-        console.log(data);
-        Swal.fire({
-          icon: 'info',
-          toast: true, 
-          title: 'Consulta',
-          html:  'Proveedores encotrados: '+ data.datos.length,
-        })
+      console.log(data.datos);
+      Swal.fire({
+        icon: 'info',
+        toast: true, 
+        title: 'Consulta',
+        html:  'Proveedores encotrados: '+ data.datos.length,
+      })
       this.proveedor_productos=data.datos;
 
-      },
-      error => {
+    },
+    error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Proveedor no encontrado para este producto.'
+      })
+    }
+    );
+  }
+
+  add_producto(id_prov_proc: string , cantidad:string){
+    const datos = {No_provedor_producto: id_prov_proc, valor:cantidad};
+    this.userService.add_producto(datos).subscribe(data => {
+      console.log(data);
+      this.getproductos();
+      if(data.status){
+        Swal.fire({
+          icon: 'success',
+          title: 'Productos Comprado con Exito...',
+          text: 'Se la compra del producto ya lo puedes encontrar en el stock.'
+        })
+      }else{
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
-          text: 'Proveedor no encontrado para este producto.'
+          title: 'Error al comprar producto...',
+          text: 'Por validar el error: ['+data.error+'].volver a intentar'
         })
       }
+    },
+    error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'No se encontro lista de productos para el pedido.'
+      })
+    }
     );
-
-
-
-
-
   }
 
 }
+

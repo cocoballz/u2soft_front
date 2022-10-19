@@ -2,43 +2,79 @@
 <div class="container overflow-hidden my-5">
   <div class="row gy-5">
     <div class="bd-callout bd-callout-warning">
-      <h5 id="date--color-input-support">Listado de Pedidos...</h5>
+      <h3 id="date--color-input-support">Listado de Pedidos...</h3>
     </div>
-    <div>
+    <div class="row">
+      <div class="col-lg-8"> 
+        <table   class=" table row-border table-hover text-center" >
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cod pedido</th>
+              <th scope="col">Prioridad</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Fecha envio</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr *ngFor="let dat of pedidos; index as i">
+              <th scope="row">{{i+1}}</th>
+              <td><span class="badge rounded-pill text-bg-dark">2022#{{dat.id}}</span> </td>
+              <td>{{dat.pe_prioridad}}</td>
+              <td>{{dat.cliente.c_nombre}}</td>
+              <td>{{dat.pe_fecha_entrega}}</td>
+              <td>{{dat.pe_tramite}}</td>
+              <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <input type="hidden" name="id" value="{{dat.id}}" #idInput>
+                  <button type="button" class="btn btn-primary" (click)="pedido_productos(idInput.value)">Detalles</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-1"></div>
+      <div *ngIf=" pedido_product != '' && pedido_product.productos != ''"  class="col-lg-3 justify-content-md-center">
+        <h4>Productos pedido <span class="badge rounded-pill text-bg-dark">2022#{{pedido_product[0].id}}</span></h4>
+        <hr>
+        <ul class="list-group ">
 
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <h5>Producto</h5>
+            <h5 class="rounded-pill">Cantidad</h5>
+          </li>
 
+          <li  *ngFor="let p_p of pedido_product.productos ; index as i" class="list-group-item d-flex justify-content-between align-items-center">
+            {{p_p.detalle[0].p_nombre}}
+            <span class="badge bg-primary rounded-pill">{{p_p.p__d_cantidad}}</span>
+          </li>
 
+          <li *ngIf="pedido_product[0].pe_tramite != 'Enviado'" class="list-group-item justify-content-between align-items-center text-center">
+            <input type="hidden" name="id2" value="{{pedido_product[0].id}}" #idInput>
+            <button (click)="envio_pedido(idInput.value)" class="btn btn-sm btn-success"> Despachar Pedido</button>
+          </li>
 
- 
+          <li *ngIf="pedido_product[0].pe_tramite == 'Enviado'" class="list-group-item justify-content-between align-items-center text-center">
+            <div class="alert alert-success" role="alert">
+              Pedido Entregado.
+            </div>
+          </li>
 
+        </ul>
 
-<table   class=" table row-border table-hover text-center" >
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Cod pedido</th>
-      <th scope="col">Prioridad</th>
-      <th scope="col">Cliente</th>
-      <th scope="col">Fecha envio</th>
-      <th scope="col">Opciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let dat of pedidos; index as i">
-      <th scope="row">{{i+1}}</th>
-      <td><span class="badge rounded-pill text-bg-dark">2022#{{dat.id}}</span> </td>
-      <td>{{dat.pe_prioridad}}</td>
-      <td>{{dat.cliente.c_nombre}}</td>
-      <td>{{dat.pe_fecha_entrega}}</td>
-      <td>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary"  >Productos</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </div>
+
+      <div *ngIf=" pedido_product.productos == ''"  class="col-lg-3 justify-content-md-center">
+        <h4> <b>EL PEDIDO <span class="badge rounded-pill text-bg-dark">2022#{{pedido_product[0].id}}</span> NO TIENE PRODUCTOS ASOCIADOS.</b></h4>
+      </div>
+
     </div>
+  </div>
+  <div class="row row-cols-auto">
+    <div class="col"><a href="/inicio" class="btn btn-primary">Inicio</a></div>
   </div>
 </div>
 

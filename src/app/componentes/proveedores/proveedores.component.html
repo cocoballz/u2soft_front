@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+<div class="container overflow-hidden my-5">
+  <div class="row gy-5">
+    <div class="bd-callout bd-callout-warning">
+    </div>
+
+    <div>
+      <h3> Lisatdo de Proveedores</h3>
+      <hr>
+      <table class="table row-border table-striped  text-center">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">estado</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr>
+            
+          </tr>
+          <tr  *ngFor="let proveedor of proveedores; index as i">
+            <td><span >{{i+1}}</span> </td>
+            <td><span >{{proveedor.pv_nombre}}</span> </td>
+            <td><span >{{proveedor.pv_mail}}</span> </td>
+            <td><span >{{proveedor.pv_contacto}}</span> </td>
+            <td><span >{{proveedor.pv_estado == 1 ? "Activo" :"Inactivo"}}</span> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row row-cols-auto">
+   <div class="col"><a href="/inicio" class="btn btn-primary">Inicio</a></div>
+ </div>
+</div>
+
+<app-footer></app-footer>

@@ -5,73 +5,100 @@ import {CookieService} from "ngx-cookie-service";
 
 @Injectable({
   providedIn: 'root'
- 
+
 })
 export class UsersService {
 
- urlbase= "http://127.0.0.1:8000/api";
+  urlbase= "http://127.0.0.1:8000/api";
 
-  constructor(private http: HttpClient, private cookies: CookieService) { 
-  }
+  constructor(private http: HttpClient, private cookies: CookieService) {}
 
   login(user: any): Observable<any>{
     const url = this.urlbase+"/login";
     const headers = { 'Accept': 'application/json' };
-    //const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' };
-    //const url = "https://reqres.in/api/login";
     return this.http.post(url, user, {headers});
   }
 
   logout(){this.cookies.delete("auth_token"); return true}
 
-  setToken(auth_token: string){
-    this.cookies.set("auth_token", auth_token);
-  }
-  getToken() {
-    return this.cookies.get("auth_token");
-  }
-  getinfo_pedidos(): Observable<any>{
-     const url = this.urlbase+"/list_pedidos";
-     //const dat = "true";
-    return this.http.post(url,'');
-  } 
-  getinfo_productos(): Observable<any>{
-     const url = this.urlbase+"/list_stock";
-     //const dat = "true";
-    return this.http.post(url,'');
-  }
+/**
+* INICIO FUNCIONES JWT o TOKEN (LARAVEL sanctum)
+*/
 
-  getinfo_proveedor_producto(datos: any): Observable<any>{
-    const url = this.urlbase+"/list_proveedores_producto";
-    const headers = { 'Accept': 'application/json' };
-    //const headers = { 'Authorization': 'Bearer my-token', 'My-Custom-Header': 'foobar' };
-    //const url = "https://reqres.in/api/login";
-    return this.http.post(url, datos, {headers});
-  }
+setToken(auth_token: string){
+  this.cookies.set("auth_token", auth_token);
+}
+getToken() {
+  return this.cookies.get("auth_token");
+}
+/**
+* FIN FUNCIONES JWT o TOKEN (LARAVEL sanctum)
+*/
 
 
+/**
+* INICIO FUNCIONES CONSULTA GENERAL
+*/
+getinfo_pedidos(): Observable<any>{
+  const url = this.urlbase+"/list_pedidos";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,'',{headers});
+} 
+getinfo_productos(): Observable<any>{
+  const url = this.urlbase+"/list_stock";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,'',{headers});
+} 
+
+getinfo_proveedores(): Observable<any>{
+  const url = this.urlbase+"/list_proveedores";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,'',{headers});
+}
+
+/**
+* FIN FUNCIONES CONSULTA GENERAL
+*/
 
 
+/**
+* INICIO FUNCIONES CONSULTA ESPECIFICA
+*/
+getinfo_proveedor_producto(datos: any): Observable<any>{
+  const url = this.urlbase+"/list_proveedores_producto";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,datos,{headers});
+}
+
+getinfo_productos_pedido(datos: any): Observable<any>{
+  const url = this.urlbase+"/detail_pedido";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,datos,{headers});
+}
+
+/**
+* FIN FUNCIONES CONSULTA ESPECIFICA
+*/
 
 
-  register(user: any): Observable<any>{
-    const url = "http://127.0.0.1:8000/api/register";
-    return this.http.post(url, user);
-  }
-  modificacion(datos: any): Observable<any>{
-    const url = "http://127.0.0.1:8000/api/tramitar";
-    const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
-    return this.http.post(url, datos, {headers});
-  }
+/**
+* INICIO FUNCIONES DE MODIFICACION
+*/
 
+send_pedido(datos: any): Observable<any>{
+  const url = this.urlbase+"/envio";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,datos,{headers});
+}
 
-  
-  new_acount(dat: any): Observable<any>{
-    const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+dat.auth_token, 'My-Custom-Header': 'foobar' };
-    const url ="http://127.0.0.1:8000/api/create_acount";
-    return this.http.post(url, dat,{headers});
-  }
+add_producto(datos: any): Observable<any>{
+  const url = this.urlbase+"/restablecer";
+  const headers = { 'Accept': 'application/json', 'Authorization': 'Bearer '+this.getToken(), 'My-Custom-Header': 'foobar' };
+  return this.http.post(url,datos,{headers});
+}
 
-
+/**
+* FIN FUNCIONES DE MODIFICACION
+*/
 
 }
